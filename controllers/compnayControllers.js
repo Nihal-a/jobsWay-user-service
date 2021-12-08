@@ -1,14 +1,6 @@
-const bcrypt = require('bcrypt')
 require('dotenv').config()
-const jwt = require('jsonwebtoken')
 const db = require('../config/connection')
-const { USER_COLLECTION } = require('../config/collection')
 const collection = require('../config/collection')
-const SERVICE_ID = process.env.SERVICE_ID
-const ACCOUNT_SID = process.env.ACCOUNT_SID
-const AUTH_TOKEN = process.env.AUTH_TOKEN
-const client = require('twilio')(ACCOUNT_SID, AUTH_TOKEN)
-const { validationResult } = require('express-validator')
 const { ObjectId } = require('mongodb')
 
 
