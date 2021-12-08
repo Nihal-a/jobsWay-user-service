@@ -6,7 +6,6 @@ const logger = require('morgan')
 var fs = require('fs')
 var path = require('path')
 
-const PORT  = process.env.PORT || 8000
 const app = express()
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -27,7 +26,7 @@ db.connect((err)=>{
     else console.log("database Connected Successfully");
 })
 
-app.listen(PORT,(err) => {
+app.listen(process.env.PORT || 3000 ,(err) => {
     if(err) console.log("Server failed to start. Error : " + err);
-    else console.log(`USER SERVICE - Server started at port : ${PORT}.`);
+    else console.log(`USER SERVICE - Server started at port : ${process.env.PORT}.`);
 })
