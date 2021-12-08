@@ -7,6 +7,7 @@ var fs = require('fs')
 var path = require('path')
 
 const app = express()
+const PORT = process.env.PORT || '8001'
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
@@ -26,7 +27,7 @@ db.connect((err)=>{
     else console.log("database Connected Successfully");
 })
 
-app.listen(process.env.PORT || 3000 ,(err) => {
+app.listen(PORT,(err) => {
     if(err) console.log("Server failed to start. Error : " + err);
-    else console.log(`USER SERVICE - Server started at port : ${process.env.PORT}.`);
+    else console.log(`USER SERVICE - Server started at port : ${PORT}.`);
 })
