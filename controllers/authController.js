@@ -2,7 +2,7 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../config/connection')
-const collection = require('../config/collection')
+const {USER_COLLECTION } = require('../config/collection')
 const ACCOUNT_SID = process.env.ACCOUNT_SID
 const AUTH_TOKEN = process.env.AUTH_TOKEN
 const client = require('twilio')(ACCOUNT_SID,AUTH_TOKEN)
@@ -24,7 +24,7 @@ module.exports = {
                 return res.status(400).json({ errors: errors.array() })
             }
 
-            var userExist = await db.get().collection(collection.USER_COLLECTION).findOne({phone})
+            var userExist = await db.get().collection(USER_COLLECTION).findOne({phone})
 
 
             if (userExist) return res.status(401).json({ errors: 'User already exists' })
@@ -76,7 +76,7 @@ module.exports = {
                 return res.status(400).json({ errors: errors.array() })
             }
 
-            var user = await db.get().collection(collection.USER_COLLECTION).findOne({ phone })
+            var user = await db.get().collection(USER_COLLECTION).findOne({ phone })
 
             if (!user) return res.status(404).json({ errors: 'User Not found' })
 
@@ -133,7 +133,7 @@ module.exports = {
 
                         let result = await db.get().collection(USER_COLLECTION).insertOne({ phone, password: hashedPassword, name, ban: false ,email})
 
-                        let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: result.insertedId })
+                        let user = await db.get().collection(USER_COLLECTION).findOne({ _id: result.insertedId })
 
                         const token = jwt.sign({ phone: result.phone, id: result.insertedId.str }, 'secret', { expiresIn: "1h" })
 
@@ -152,11 +152,11 @@ module.exports = {
     googlesign: async (req, res) => {
         const { email, firstName, lastName, password } = req.body
         try {
-            var userExist = await db.get().collection(collection.USER_COLLECTION).findOne({ email })
+            var userExist = await db.get().collection(USER_COLLECTION).findOne({ email })
 
             if (userExist) {
                 
-                var user = await db.get().collection(collection.USER_COLLECTION).findOne({ email })
+                var user = await db.get().collection(USER_COLLECTION).findOne({ email })
 
                 if (!user) return res.status(200).send('No account found.')
 
@@ -177,7 +177,7 @@ module.exports = {
 
                 let result = await db.get().collection(USER_COLLECTION).insertOne({ email, password: hashedPassword, name, ban: false })
 
-                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: result.insertedId })
+                let user = await db.get().collection(USER_COLLECTION).findOne({ _id: result.insertedId })
 
                 const token = jwt.sign({ email: result.email, id: result.insertedId.str }, 'secret', { expiresIn: "1h" })
 
