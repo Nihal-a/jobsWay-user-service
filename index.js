@@ -23,7 +23,7 @@ app.use(cors());
 app.use('/api/v1/user/',routes);
 
 app.use('/' , (req,res) => {
-  res.send('JobsWay Welcomes You!')
+  res.send('JobsWay User Service API.')
 })
 
 db.connect((err)=>{
