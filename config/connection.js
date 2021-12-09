@@ -3,7 +3,7 @@ const state = {
     db:null
 }
 module.exports.connect = function(done){
-    const url = 'mongodb://localhost:27017'
+    const url = `mongodb+srv://jobsway:${process.env.MONGODB_PASSWORD}@jobsway.beeub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
     const name = 'jobsWay'
 
     mongoClient.connect(url,{ useUnifiedTopology: true },(err,data)=>{
