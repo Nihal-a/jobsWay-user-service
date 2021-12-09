@@ -2,7 +2,6 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../config/connection')
-const { USER_COLLECTION } = require('../config/collection')
 const collection = require('../config/collection')
 const ACCOUNT_SID = process.env.ACCOUNT_SID
 const AUTH_TOKEN = process.env.AUTH_TOKEN
