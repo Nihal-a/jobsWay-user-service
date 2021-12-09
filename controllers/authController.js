@@ -117,14 +117,14 @@ module.exports = {
 
     //Otp verification
     verifyOtp: async (req, res) => {
-        const { userDetails, otpDetails } = req.body
+        const { userDetails, otp } = req.body
         const { firstName, lastName, phone, password , email } = userDetails
         try {
             client.verify
                 .services(process.env.SERVICE_ID)
                 .verificationChecks.create({
                     to: `+91${phone}`,
-                    code: otpDetails.otp
+                    code: otp
                 }).then(async (response) => {
                     if (response.valid) {
                         const hashedPassword = await bcrypt.hash(password, 12)
