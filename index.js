@@ -7,7 +7,7 @@ var fs = require('fs')
 var path = require('path')
 
 const app = express()
-const PORT = process.env.PORT || '8001'
+const PORT = process.env.PORT || 4002
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 

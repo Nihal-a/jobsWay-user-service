@@ -139,7 +139,7 @@ module.exports = {
 
                         res.status(200).json({ user, token })
                     } else {
-                        res.json({ Err: "Invalid OTP", userDetails })
+                        res.status(400).json({ Err: "Invalid OTP", userDetails })
                     }
                 })
         } catch (error) {
