@@ -66,7 +66,7 @@ module.exports = {
     },
     //signin user
     signin: async (req, res) => {
-        const { email , password , phone } = req.body
+        const { password , phone } = req.body
         var errors = validationResult(req)
 
         try {
@@ -77,6 +77,8 @@ module.exports = {
             }
 
             var user = await db.get().collection(USER_COLLECTION).findOne({ phone })
+
+            console.log(user);
 
             if (!user) return res.status(404).json({ errors: 'User Not found' })
 
@@ -94,27 +96,7 @@ module.exports = {
         }
     },
 
-    // sendOtp: async (req, res) => {
-    //     const { phone } = req.body
-    //     try {
-    //         var userExist = await db.get().collection(collection.USER_COLLECTION).findOne({ phone })
-
-    //         if (userExist) return res.status(200).send('User already exist! Try login.')
-
-    //         client.verify
-    //             .services(SERVICE_ID)
-    //             .verifications.create({
-    //                 to: `+91${phone}`,
-    //                 channel: "sms"
-    //             }).then((response) => {
-    //                 res.status(200).json({ status: 'send' })
-    //             })
-    //     } catch (error) {
-    //         console.log(error);
-    //         res.status(500).json({ error: error.message });
-    //     }
-    // },
-
+ 
     //Otp verification
     verifyOtp: async (req, res) => {
         const { userDetails, otp } = req.body
@@ -150,6 +132,7 @@ module.exports = {
 
     //Google Sign in
     googlesign: async (req, res) => {
+        console.log(req.body);
         const { email, firstName, lastName, password } = req.body
         try {
             var userExist = await db.get().collection(USER_COLLECTION).findOne({ email })
