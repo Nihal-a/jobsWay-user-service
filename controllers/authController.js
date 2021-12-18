@@ -99,6 +99,7 @@ module.exports = {
  
     //Otp verification
     verifyOtp: async (req, res) => {
+        console.log("this is the data : " , req.body);
         const { userDetails, otp } = req.body
         const { firstName, lastName, phone, password , email } = userDetails
         try {
