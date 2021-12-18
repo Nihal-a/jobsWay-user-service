@@ -100,7 +100,7 @@ module.exports = {
     //Otp verification
     verifyOtp: async (req, res) => {
         const { userDetails, otp } = req.body
-        const { firstName, lastName, phone, password , email } = userDetails
+        const { firstName, lastName, phone, password , email } = req.body.userDetails
         try {
             client.verify
                 .services(process.env.SERVICE_ID)
