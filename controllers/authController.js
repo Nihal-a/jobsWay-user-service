@@ -210,6 +210,7 @@ module.exports = {
         }
     },
     ForgotverifyOtp: async (req, res) => {
+        console.log(req.body);
         const { phone , newPassword , otp } = req.body
         try {
             client.verify
