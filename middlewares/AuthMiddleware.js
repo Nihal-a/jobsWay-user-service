@@ -11,6 +11,12 @@ module.exports = {
         check('phone').exists().isNumeric().withMessage('Phone number must be digits').isLength({min : 10 , max : 10}).withMessage('Enter a Valid Phone number'),
         // check('email').isEmail().withMessage('Enter a valid email Address'),
         check('password' , 'Password must contain minimum 8 characters').exists().isLength({min : 8})
+    ],
+    validatePhone : [
+        check('phone').exists().isNumeric().withMessage('Phone number must be digits').isLength({min : 10 , max : 10}).withMessage('Enter a Valid Phone number'),
+    ],
+    validateNewPassword : [
+        check('newPassword' , 'Password must contain minimum 8 characters').exists().isLength({min : 8})
     ]
 }
 

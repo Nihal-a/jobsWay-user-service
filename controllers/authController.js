@@ -78,7 +78,6 @@ module.exports = {
 
             var user = await db.get().collection(USER_COLLECTION).findOne({ phone })
 
-            console.log(user);
 
             if (!user) return res.status(404).json({ errors: 'User Not found' })
 
@@ -99,7 +98,6 @@ module.exports = {
  
     //Otp verification
     verifyOtp: async (req, res) => {
-        console.log("this is the data : " , req.body);
         const { userDetails, otp } = req.body
         const { firstName, lastName, phone, password , email } = userDetails
         try {
@@ -172,5 +170,75 @@ module.exports = {
             console.log(error);
             res.json({ error: error.message })
         }
-    }
+    },
+    forgotPassword : async (req , res) => {
+        const {phone} = req.body 
+        var errors = validationResult(req)
+
+        try {
+
+            //Express Validator error.
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() })
+            }
+
+            var user = await db.get().collection(USER_COLLECTION).findOne({ phone })
+
+
+            if (!user) return res.status(404).json({ errors: 'No Account with this phone number Found' })
+
+            //Send Otp 
+            try {
+    
+                client.verify
+                    .services(process.env.SERVICE_ID)
+                    .verifications.create({
+                        to: `+91${phone}`,
+                        channel: "sms"
+                    }).then(({status}) => {
+                        res.status(200).json({ status , phone})
+                    })
+            } catch (error) {
+                console.log(error);
+                res.status(500).json({ error: error.message });
+            }
+
+            
+        } catch (error) {
+            console.log(error);
+            res.json({ error: error.message })
+        }
+    },
+    ForgotverifyOtp: async (req, res) => {
+        const { phone , newPassword , otp } = req.body
+        try {
+            client.verify
+                .services(process.env.SERVICE_ID)
+                .verificationChecks.create({
+                    to: `+91${phone}`,
+                    code: otp
+                }).then(async (response) => {
+                    if (response.valid) {
+                        const hashedPassword = await bcrypt.hash(newPassword, 12)
+
+                        let updatePassword = await db.get().collection(USER_COLLECTION).updateOne({ phone } , {
+                            $set : {
+                                password : hashedPassword
+                            }
+                        })
+
+                        let user = await db.get().collection(USER_COLLECTION).findOne({ phone})
+
+                        const token = jwt.sign({ phone: user.phone, id: user._id.str }, 'secret', { expiresIn: "1h" })
+
+                        res.status(200).json({ user, token })
+                    } else {
+                        res.status(400).json({ Err: "Invalid OTP", userDetails })
+                    }
+                })
+        } catch (error) {
+            console.log(error);
+            res.json({ error: error.message })
+        }
+    },
 }
