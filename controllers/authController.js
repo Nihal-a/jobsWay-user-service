@@ -266,5 +266,19 @@ module.exports = {
             console.log(error);
             res.json({ error: error.message })
         }
+    },
+    getUserDetails : async (req,res) => {
+        const id = req.params.id
+
+        try {
+           let user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+
+           if(!user) return res.status(401).json({msg : 'No user found'})
+
+           res.status(200).json(user)
+        } catch (error) {
+            console.log(error);
+            res.json({ error: error.message })
+        }
     }
 }
