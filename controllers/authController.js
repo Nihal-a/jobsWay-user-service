@@ -131,7 +131,6 @@ module.exports = {
 
     //Google Sign in
     googlesign: async (req, res) => {
-        console.log(req.body);
         const { email, firstName, lastName, password } = req.body
         try {
             var userExist = await db.get().collection(USER_COLLECTION).findOne({ email })
@@ -210,7 +209,6 @@ module.exports = {
         }
     },
     ForgotverifyOtp: async (req, res) => {
-        console.log(req.body);
         const { phone , newPassword , otp } = req.body
         try {
             client.verify
@@ -234,7 +232,7 @@ module.exports = {
 
                         res.status(200).json({ user, token })
                     } else {
-                        res.status(400).json({ Err: "Invalid OTP", userDetails })
+                        res.status(400).json({ Err: "Invalid OTP", phone })
                     }
                 })
         } catch (error) {
@@ -242,4 +240,7 @@ module.exports = {
             res.json({ error: error.message })
         }
     },
+    // editProfile : async (req,res) => {
+    //     console.log(req.body);
+    // }
 }

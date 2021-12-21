@@ -16,6 +16,7 @@ router.post('/verifyotp',verifyOtp)
 router.post('/googlesign',googlesign)
 router.post('/forgot-password',validatePhone,forgotPassword)
 router.post('/forgot-otp-verify',validateNewPassword,ForgotverifyOtp)
+// router.post('/edit-profile',editProfile)
 
 //Jobs
 router.get('/getfeaturedjobs',getFeaturedJobs)
