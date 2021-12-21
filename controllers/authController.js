@@ -7,6 +7,7 @@ const ACCOUNT_SID = process.env.ACCOUNT_SID
 const AUTH_TOKEN = process.env.AUTH_TOKEN
 const client = require('twilio')(ACCOUNT_SID,AUTH_TOKEN)
 const { validationResult } = require('express-validator')
+const { ObjectId } = require('mongodb')
 
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
         res.send('Hey , Welcome to JobsWay User Service')
     },
     signup: async (req, res) => {
-        const { email, firstName, lastName, password , phone} = req.body
+        const { phone} = req.body
         var errors = validationResult(req)
 
         //Signup user
@@ -44,21 +45,6 @@ module.exports = {
                 console.log(error);
                 res.status(500).json({ error: error.message });
             }
-
-            // const hashedPassword = await bcrypt.hash(password, 12)
-
-            // var name = `${firstName} ${lastName}`
-
-            // if (lastName == undefined) name = firstName;
-
-            // let result = await db.get().collection(USER_COLLECTION).insertOne({ email, password: hashedPassword, name, ban: false })
-
-            // let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: result.insertedId })
-
-            // const token = jwt.sign({ email: result.email, id: result.insertedId.str }, 'secret', { expiresIn: "1h" })
-
-            // return res.status(200).json({ user, token })
-
         } catch (error) {
             console.log(error);
             res.status(500).json({ error: error.message });
@@ -240,7 +226,45 @@ module.exports = {
             res.json({ error: error.message })
         }
     },
-    // editProfile : async (req,res) => {
-    //     console.log(req.body);
-    // }
+    editProfile : async (req,res) => {
+        const { userDetails , image , resume } = req.body
+        const id = req.params.id
+
+        try {
+            const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+
+            if(!user) return res.status(401).json({msg : "User not found"})
+
+            var name = `${userDetails.firstName} ${userDetails.lastName}`
+
+            if (userDetails.lastName == undefined) name = userDetails.firstName;
+
+
+            await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
+                $set : {
+                    name : name,
+                    designation : userDetails.designation , 
+                    instagram : userDetails.instagram ,
+                    twitter : userDetails.twitter ,
+                    facebook : userDetails.facebook,
+                    linkedIn : userDetails.linkedIn ,
+                    skills : userDetails.skills ,
+                    location : userDetails.location ,
+                    email : userDetails.email , 
+                    portfolio : userDetails.portfolio ,
+                    experience : userDetails.experience , 
+                }
+            })
+
+            let updatedUser = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+
+            const token = jwt.sign({ email: updatedUser.email, id: updatedUser._id.str }, 'secret', { expiresIn: "1h" })
+
+            res.status(200).json({updatedUser , token})
+            
+        } catch (error) {
+            console.log(error);
+            res.json({ error: error.message })
+        }
+    }
 }

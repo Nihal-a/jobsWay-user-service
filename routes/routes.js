@@ -1,5 +1,5 @@
 var express = require('express')
-const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp} = require('../controllers/authController');
+const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp, editProfile} = require('../controllers/authController');
 const { getCompanyDetails, getAllCompanies } = require('../controllers/compnayControllers');
 const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs } = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
@@ -16,7 +16,7 @@ router.post('/verifyotp',verifyOtp)
 router.post('/googlesign',googlesign)
 router.post('/forgot-password',validatePhone,forgotPassword)
 router.post('/forgot-otp-verify',validateNewPassword,ForgotverifyOtp)
-// router.post('/edit-profile',editProfile)
+router.post('/edit-profile/:id',editProfile)
 
 //Jobs
 router.get('/getfeaturedjobs',getFeaturedJobs)
