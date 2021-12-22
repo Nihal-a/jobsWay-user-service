@@ -12,6 +12,8 @@ const client = require('twilio')(ACCOUNT_SID,AUTH_TOKEN)
 const { validationResult } = require('express-validator')
 const { ObjectId } = require('mongodb')
 const { uploadFile } = require('../s3')
+const { cloudinary } = require('../utils/cloudinary')
+
 
 module.exports = {
     getDashboard: (req, res) => {
@@ -236,6 +238,10 @@ module.exports = {
 
         try {
 
+            const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+
+            if(!user) return res.status(401).json({msg : "User not found"})
+
             if(userDetails.email) {
                 let emailExist = await db.get().collection(USER_COLLECTION).find({email : userDetails.email})
                 console.log("this is : " , emailExist);
@@ -248,10 +254,6 @@ module.exports = {
                 if(phoneExist) return res.status(401).json({msg : 'Account with this phone number already exists.'})
             }
             
-            
-            const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
-
-            if(!user) return res.status(401).json({msg : "User not found"})
 
             if(req.file){
                 const {Location} = await uploadFile(resume)
