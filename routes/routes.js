@@ -19,7 +19,7 @@ router.post('/googlesign',googlesign)
 router.post('/forgot-password',validatePhone,forgotPassword)
 router.post('/forgot-otp-verify',validateNewPassword,ForgotverifyOtp)
 router.post('/edit-profile/:id', upload.single('pdf') ,editProfile)
-router.post('/user/:id' , getUserDetails)
+router.post('/get-user/:id' , getUserDetails)
 
 //Jobs
 router.get('/getfeaturedjobs',getFeaturedJobs)
