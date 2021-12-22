@@ -229,11 +229,18 @@ module.exports = {
     editProfile : async (req,res) => {
         const { userDetails , image } = req.body
         const resume = req.file
-        console.log("resume : " ,resume);
         const id = req.params.id
 
         try {
 
+            let emailExist = await db.get().collection(USER_COLLECTION).find({emial : userDetails.email})
+
+            if(emailExist) return res.status(401).json({msg : 'Account with this email already exists.'})
+            
+            let phoneExist = await db.get().collection(USER_COLLECTION).find({emial : userDetails.phone})
+            if(phoneExist) return res.status(401).json({msg : 'Account with this phone number already exists.'})
+            
+            
             const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
 
             if(!user) return res.status(401).json({msg : "User not found"})
