@@ -8,7 +8,7 @@ const AUTH_TOKEN = process.env.AUTH_TOKEN
 const client = require('twilio')(ACCOUNT_SID,AUTH_TOKEN)
 const { validationResult } = require('express-validator')
 const { ObjectId } = require('mongodb')
-
+const { uploadFile } = require('../s3')
 
 module.exports = {
     getDashboard: (req, res) => {
@@ -227,32 +227,48 @@ module.exports = {
         }
     },
     editProfile : async (req,res) => {
-        const { userDetails , image , resume } = req.body
+        const { userDetails , image } = req.body
+        const resume = req.file
+        console.log("resume : " ,resume);
         const id = req.params.id
 
         try {
+
+            if(req.file){
+                const {Location} = await uploadFile(resume)
+                await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
+                    $set : {
+                        resumeUrl : Location,
+                    }
+                })
+            }
+
+            if(image) {
+                
+            }
+
             const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
 
             if(!user) return res.status(401).json({msg : "User not found"})
 
-            var name = `${userDetails.firstName} ${userDetails.lastName}`
+            if(userDetails.firstName && userDetails.lastName) var name = `${userDetails.firstName} ${userDetails.lastName}`
 
             if (userDetails.lastName == undefined) name = userDetails.firstName;
-
 
             await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
                 $set : {
                     name : name,
-                    designation : userDetails.designation , 
-                    instagram : userDetails.instagram ,
-                    twitter : userDetails.twitter ,
-                    facebook : userDetails.facebook,
-                    linkedIn : userDetails.linkedIn ,
-                    skills : userDetails.skills ,
-                    location : userDetails.location ,
-                    email : userDetails.email , 
-                    portfolio : userDetails.portfolio ,
-                    experience : userDetails.experience , 
+                    designation : userDetails?.designation , 
+                    instagram : userDetails?.instagram ,
+                    twitter : userDetails?.twitter ,
+                    facebook : userDetails?.facebook,
+                    linkedIn : userDetails?.linkedIn ,
+                    skills : userDetails?.skills ,
+                    location : userDetails?.location ,
+                    email : userDetails?.email , 
+                    portfolio : userDetails?.portfolio ,
+                    experience : userDetails?.experience , 
+                    resumeUrl : resumeUrl,
                 }
             })
 

@@ -4,6 +4,8 @@ const { getCompanyDetails, getAllCompanies } = require('../controllers/compnayCo
 const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs } = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 const router  = express.Router();
 
@@ -16,7 +18,7 @@ router.post('/verifyotp',verifyOtp)
 router.post('/googlesign',googlesign)
 router.post('/forgot-password',validatePhone,forgotPassword)
 router.post('/forgot-otp-verify',validateNewPassword,ForgotverifyOtp)
-router.post('/edit-profile/:id',editProfile)
+router.post('/edit-profile/:id', upload.single('pdf') ,editProfile)
 router.post('/user/:id' , getUserDetails)
 
 //Jobs
