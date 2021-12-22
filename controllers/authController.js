@@ -242,17 +242,17 @@ module.exports = {
 
             if(!user) return res.status(401).json({msg : "User not found"})
 
-            if(userDetails.email) {
-                let emailExist = await db.get().collection(USER_COLLECTION).find({email : userDetails.email})
-                console.log("this is : " , emailExist);
-                if(emailExist) return res.status(401).json({msg : 'Account with this email already exists.'})
-            }
+            // if(userDetails.email) {
+            //     let emailExist = await db.get().collection(USER_COLLECTION).find({email : userDetails.email})
+            //     console.log("this is : " , emailExist);
+            //     if(emailExist) return res.status(401).json({msg : 'Account with this email already exists.'})
+            // }
             
-            if(userDetails.phone){
-                let phoneExist = await db.get().collection(USER_COLLECTION).find({phone : userDetails.phone})
-                console.log("this is : " , phoneExist);
-                if(phoneExist) return res.status(401).json({msg : 'Account with this phone number already exists.'})
-            }
+            // if(userDetails.phone){
+            //     let phoneExist = await db.get().collection(USER_COLLECTION).find({phone : userDetails.phone})
+            //     console.log("this is : " , phoneExist);
+            //     if(phoneExist) return res.status(401).json({msg : 'Account with this phone number already exists.'})
+            // }
             
 
             if(req.file){
@@ -289,6 +289,7 @@ module.exports = {
                     email : userDetails?.email , 
                     portfolio : userDetails?.portfolio ,
                     experience : userDetails?.experience , 
+                    phone : userDetails?.phone
                 }
             })
 
