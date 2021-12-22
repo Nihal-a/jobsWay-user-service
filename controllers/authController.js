@@ -234,6 +234,10 @@ module.exports = {
 
         try {
 
+            const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+
+            if(!user) return res.status(401).json({msg : "User not found"})
+
             if(req.file){
                 const {Location} = await uploadFile(resume)
                 await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
@@ -244,20 +248,19 @@ module.exports = {
             }
 
             if(image) {
-                
+                const imageUploadedResponse = await cloudinary.uploader.upload(image , {
+                    upload_preset : 'Applied_Users_Image'
+                })
+                await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
+                    $set : {
+                        imgUrl : imageUploadedResponse.url,
+                    }
+                })
             }
-
-            const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
-
-            if(!user) return res.status(401).json({msg : "User not found"})
-
-            if(userDetails.firstName && userDetails.lastName) var name = `${userDetails.firstName} ${userDetails.lastName}`
-
-            if (userDetails.lastName == undefined) name = userDetails.firstName;
 
             await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
                 $set : {
-                    name : name,
+                    name : userDetails?.name,
                     designation : userDetails?.designation , 
                     instagram : userDetails?.instagram ,
                     twitter : userDetails?.twitter ,
@@ -268,7 +271,6 @@ module.exports = {
                     email : userDetails?.email , 
                     portfolio : userDetails?.portfolio ,
                     experience : userDetails?.experience , 
-                    resumeUrl : resumeUrl,
                 }
             })
 
