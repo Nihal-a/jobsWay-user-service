@@ -2,6 +2,9 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../config/connection')
+const fs = require('fs')
+const util = require('util')
+const unLinkFile = util.promisify(fs.unlink)
 const {USER_COLLECTION } = require('../config/collection')
 const ACCOUNT_SID = process.env.ACCOUNT_SID
 const AUTH_TOKEN = process.env.AUTH_TOKEN
@@ -233,11 +236,11 @@ module.exports = {
 
         try {
 
-            let emailExist = await db.get().collection(USER_COLLECTION).find({emial : userDetails.email})
+            let emailExist = await db.get().collection(USER_COLLECTION).find({email : userDetails.email})
 
             if(emailExist) return res.status(401).json({msg : 'Account with this email already exists.'})
             
-            let phoneExist = await db.get().collection(USER_COLLECTION).find({emial : userDetails.phone})
+            let phoneExist = await db.get().collection(USER_COLLECTION).find({phone : userDetails.phone})
             if(phoneExist) return res.status(401).json({msg : 'Account with this phone number already exists.'})
             
             
@@ -252,6 +255,7 @@ module.exports = {
                         resumeUrl : Location,
                     }
                 })
+                await unLinkFile(resume.path)
             }
 
             if(image) {
