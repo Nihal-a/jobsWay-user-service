@@ -11,7 +11,7 @@ const AUTH_TOKEN = process.env.AUTH_TOKEN
 const client = require('twilio')(ACCOUNT_SID,AUTH_TOKEN)
 const { validationResult } = require('express-validator')
 const { ObjectId } = require('mongodb')
-const { uploadFile } = require('../s3')
+const { uploadFile } = require('../utils/s3')
 const { cloudinary } = require('../utils/cloudinary')
 
 
