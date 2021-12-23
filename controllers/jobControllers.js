@@ -22,9 +22,9 @@ module.exports = {
     },
     getAllJobs : async(req,res) => {
         try {
-            var allFeaturedJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).toArray()
+            var allJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).toArray()
 
-            res.status(200).json(allFeaturedJobs)
+            res.status(200).json(allJobs)
         } catch (error) {
             console.log(error);
             res.status(500).json({Err : error})
