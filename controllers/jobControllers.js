@@ -152,5 +152,22 @@ module.exports = {
             console.log(error);
             res.status(500).json({Err : error})
         }
-    } 
+    },
+    getJobById : async (req , res) => {
+
+        const {jobId} = req.params
+
+        try {
+
+            const jobDetails = await db.get().collection(collection.JOBS_COLLECTION).findOne({_id : ObjectId(jobId)})
+
+            if(!jobDetails) return res.status(400).json({msg : 'No job found with this ID'})
+
+            res.status(200).json(jobDetails)
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({Err : error})
+        }
+    }
 }

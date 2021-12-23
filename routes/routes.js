@@ -1,7 +1,7 @@
 var express = require('express')
 const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp, editProfile ,getUserDetails} = require('../controllers/authController');
 const { getCompanyDetails, getAllCompanies } = require('../controllers/compnayControllers');
-const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs } = require('../controllers/jobControllers');
+const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById} = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
 const multer  = require('multer')
@@ -24,6 +24,7 @@ router.get('/get-user/:id' , getUserDetails)
 //Jobs
 router.get('/getfeaturedjobs',getFeaturedJobs)
 router.get('/getjobs' , getAllJobs)
+router.get('/job/details/:jobId' , getJobById)
 router.get('/company-jobs/:id' , getJobsByCompany)
 router.post('/applyjob' , validateApplyJob , applyJob)
 router.get('/user-applied-jobs/:id' , getUserAppliedJobs)
