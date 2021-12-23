@@ -27,7 +27,7 @@ router.get('/getjobs' , getAllJobs)
 router.get('/company-jobs/:id' , getJobsByCompany)
 router.post('/applyjob' , validateApplyJob , applyJob)
 router.get('/user-applied-jobs/:id' , getUserAppliedJobs)
-
+ 
 //company
 router.get('/companies' , getAllCompanies)
 router.get('/getcompany/:id' , getCompanyDetails)
