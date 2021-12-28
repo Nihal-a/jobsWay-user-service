@@ -1,10 +1,11 @@
 var express = require('express')
 const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp, editProfile ,getUserDetails} = require('../controllers/authController');
-const { getCompanyDetails, getAllCompanies } = require('../controllers/compnayControllers');
+const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser} = require('../controllers/compnayControllers');
 const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById} = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
-const multer  = require('multer')
+const multer  = require('multer');
+const { createResume } = require('../controllers/userController');
 const upload = multer({ dest: 'uploads/' })
 
 const router  = express.Router();
@@ -21,16 +22,22 @@ router.post('/forgot-otp-verify',validateNewPassword,ForgotverifyOtp)
 router.post('/edit-profile/:id', upload.single('pdf') ,editProfile)
 router.get('/get-user/:id' , getUserDetails)
 
+
+//user
+router.post('/create-resume' , createResume)
+router.get('/tasks/:userId' , getAllTaskOfUser)
+
 //Jobs
 router.get('/getfeaturedjobs',getFeaturedJobs)
 router.get('/getjobs' , getAllJobs)
 router.get('/job/details/:jobId' , getJobById)
 router.get('/company-jobs/:id' , getJobsByCompany)
-router.post('/applyjob' , validateApplyJob , applyJob)
+router.post('/applyjob/:jobId' , validateApplyJob ,  upload.single('pdf') , applyJob)
 router.get('/user-applied-jobs/:id' , getUserAppliedJobs)
  
 //company
 router.get('/companies' , getAllCompanies)
 router.get('/getcompany/:id' , getCompanyDetails)
+
 
 module.exports = router;

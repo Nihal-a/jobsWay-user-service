@@ -10,7 +10,6 @@ module.exports = {
         check('formData.experience','Enter a valid year of expirence').exists().isNumeric(),
         check('formData.portfolio','Enter a valid portfolio URL').exists().isURL(),
         check('image','You must upload your Photo').exists().isLength({min : 10}),
-        check('pdf','You must upload your Resume').exists().isLength({min : 10})
     ],
 }
 

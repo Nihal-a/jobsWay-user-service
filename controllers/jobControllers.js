@@ -6,6 +6,8 @@ const collection = require('../config/collection')
 const { validationResult } = require('express-validator')
 const { cloudinary } = require('../utils/cloudinary')
 const { ObjectId } = require('bson')
+const { uploadFile } = require('../utils/s3')
+
 
 
 module.exports = {
@@ -44,7 +46,9 @@ module.exports = {
         }
     },
     applyJob : async (req , res) => {
-        const {formData , image , pdf} = req.body
+        const {formData , image } = req.body
+        const resume = req.file
+        const {jobId} = req.params
         var errors = validationResult(req)
 
         try {
@@ -61,11 +65,11 @@ module.exports = {
     
             formData.imgUrl = imageUploadedResponse.url
 
-            const pdfUploadedResponse = await cloudinary.uploader.upload(pdf , {
-                upload_preset : 'Applied_Users_Pdf'
-            })
+            // const {Location} = await uploadFile(resume)
+                
+            // await unLinkFile(resume.path)
 
-            formData.pdfUrl = pdfUploadedResponse.url
+            // formData.resumeUrl = Location
 
             formData.status = 'PENDING' //APPROVED , REJECTED , PENDING
 
@@ -78,14 +82,14 @@ module.exports = {
                     }
             })
 
-            await db.get().collection(collection.JOBS_COLLECTION).updateOne({_id : ObjectId(formData.jobId)} , {
+            await db.get().collection(collection.JOBS_COLLECTION).updateOne({_id : ObjectId(jobId)} , {
                     $addToSet : {
                         applications : formData
                     }
             })
 
 
-            let job = await db.get().collection(collection.JOBS_COLLECTION).findOne({_id : ObjectId(formData.jobId)})
+            let job = await db.get().collection(collection.JOBS_COLLECTION).findOne({_id : ObjectId(jobId)})
 
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id : ObjectId(formData.userId)})
 

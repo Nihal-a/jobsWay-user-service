@@ -27,5 +27,19 @@ module.exports = {
         } catch (error) {
             res.status(500).json({Err : error})
         }
+    },
+    getAllTaskOfUser : async(req,res) => {
+
+        const { userId } = req.params
+
+        try {
+            var allTask = await db.get().collection(collection.USER_TASK_COLLECTION).find({userId : ObjectId(userId)}).toArray()
+            
+            res.status(200).json(allTask)
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({Err : error})
+        }
     }
 }
