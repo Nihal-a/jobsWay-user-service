@@ -65,11 +65,11 @@ module.exports = {
     
             formData.imgUrl = imageUploadedResponse.url
 
-            // const {Location} = await uploadFile(resume)
+            const {Location} = await uploadFile(resume)
                 
-            // await unLinkFile(resume.path)
+            await unLinkFile(resume.path)
 
-            // formData.resumeUrl = Location
+            formData.resumeUrl = Location
 
             formData.status = 'PENDING' //APPROVED , REJECTED , PENDING
 
