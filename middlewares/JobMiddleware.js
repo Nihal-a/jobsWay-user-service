@@ -9,7 +9,7 @@ module.exports = {
         check('formData.location','Enter a valid location').exists().isLength({min : 3}),
         check('formData.experience','Enter a valid year of expirence').exists().isNumeric(),
         check('formData.portfolio','Enter a valid portfolio URL').exists().isURL(),
-        check('image','You must upload your Photo').exists().isLength({min : 10}),
+        check('image','You must upload your Photo').exists().isBase64(),
     ],
 }
 

@@ -1,6 +1,8 @@
 module.exports = (values) => {
 	const {
 		// Profile-Information
+		jobTitle,
+		imgUrl,
 		firstname,
 		lastname,
 		email,
@@ -61,7 +63,7 @@ module.exports = (values) => {
 	} = values;
 
 	let htmlTemplate = `
-  <!DOCTYPE html>
+	<!DOCTYPE html>
     <html>
     <head>
     <title>${firstname}'s Resume</title>
@@ -73,6 +75,8 @@ module.exports = (values) => {
 		box-sizing: border-box;
 		transition: 0.35s ease;
 		font-style: normal;
+		margin : 0 ;
+		padding : 0 ;
 	  }
 	  .rela-block {
 		width: 100%;
@@ -99,11 +103,11 @@ module.exports = (values) => {
 		display: inline-block;
 		position: relative;
 		margin: false;
+		float: left;
 		top: ;
 		left: ;
 		right: ;
 		bottom: ;
-		float: left;
 	  }
 	  .abs-center {
 		display: false;
@@ -166,7 +170,7 @@ module.exports = (values) => {
 	  }
 	  .top-bar {
 		height: 220px;
-		background-color: #848484;
+		background-color: #F6F6F6;
 		color: #fff;
 	  }
 	  .name {
@@ -198,7 +202,7 @@ module.exports = (values) => {
 		right: false;
 		bottom: 0;
 		width: 380px;
-		background-color: #f7e0c1;
+		background-color: #008FAE;
 		padding: 320px 30px 50px;
 	  }
 	  .mugshot {
@@ -240,9 +244,9 @@ module.exports = (values) => {
 		position: absolute;
 		margin: false;
 		top: 60%;
-		left: ;
+		/* left: ; */
 		right: 20%;
-		bottom: ;
+		/* bottom: ; */
 		cursor: pointer;
 		font-family: 'Roboto Slab', serif;
 		font-size: 60px;
@@ -295,7 +299,7 @@ module.exports = (values) => {
 		background-color: #999;
 	  }
 	  .greyed {
-		background-color: #ddd;
+		background-color: #F6F6F6;
 		width: 100%;
 		max-width: 580px;
 		text-align: center;
@@ -323,16 +327,23 @@ module.exports = (values) => {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <div class="rela-block page">
-        <div class="rela-block top-bar">
-			<div class="caps name"><div class="abs-center">${firstname} ${lastname}</div></div>
+        <div class="" style="width: 100%; height: 35px; background-color: rgb(99, 99, 99); text-align: right; color: #fff; display: flex; align-items: center; justify-content: end;">
+            <p class="" style="margin-top: 10px; font-style: normal; margin-right: 20px; font-size:smaller;"><small>created with :</small> JobsWay</p>
         </div>
-        <div class="side-bar">
+        <div class="rela-block top-bar">
+			<div class="caps name" style="color: #222; font-weight: 600;"><div class="abs-center">${firstname} ${lastname}</div></div>
+            <div class="" style="width: 100%;">
+            <p class="abs-center" style="color: #000; margin-left: 50px;">${jobTitle}</p>
+            </div>
+        </div>
+        <div class="side-bar" style="color: #fff;">
             <div class="mugshot">
                 <div class="logo">
-                    <svg viewbox="0 0 80 80" class="rela-block logo-svg">
+                    <!-- <svg viewbox="0 0 80 80" class="rela-block logo-svg">
                         <path d="M 10 10 L 52 10 L 72 30 L 72 70 L 30 70 L 10 50 Z" stroke-width="2.5" fill="none"/>
-                    </svg>
-                    <p class="logo-text">${firstname[0]}${lastname[0]}</p>
+                    </svg> -->
+                    <!-- <p class="logo-text">${firstname[0]}${lastname[0]}</p> -->
+                    <img src="${imgUrl}" style="width: 250px; height: 250px; border-radius: 50%; border: 10px solid #fff;" alt="">
                 </div>
 			</div>
 			<!--
@@ -379,12 +390,12 @@ module.exports = (values) => {
 			<div class="rela-block separator"></div>
 			-->
 			<div class="rela-block caps greyed">Profile</div>
-			<p class="rela-block social mb-0"><span style="padding-right: 15px; font-size="20px;"><i class="fas fa-globe"></i></span>${website}</p>
-			<p class="rela-block social mb-0"><span style="padding-right: 15px; font-size="20px;"><i class="fab fa-github"></i></span>${github}</p>
-			<p class="rela-block social mb-0"><span style="padding-right: 15px; font-size="20px;"><i class="fab fa-facebook"></i></span>${facebook}</p>
-			<p class="rela-block social mb-0"><span style="padding-right: 15px; font-size="20px;"><i class="fab fa-twitter-square"></i></span>${twitter}</p>
-			<p class="rela-block social mb-0"><span style="padding-right: 15px; font-size="20px;"><i class="fab fa-instagram"></i></span>${instagram}</p>
-			<p class="rela-block social mb-4"><span style="padding-right: 15px; font-size="20px;"><i class="fab fa-linkedin"></i></span>${linkedin}</p>			
+			<p class="rela-block social mb-0"><span style="padding-right: 15px" ><i class="fas fa-globe"></i></span>${website}</p>
+			<p class="rela-block social mb-0"><span style="padding-right: 15px" ><i class="fab fa-github"></i></span>${github}</p>
+			<p class="rela-block social mb-0"><span style="padding-right: 15px" ><i class="fab fa-facebook"></i></span>${facebook}</p>
+			<p class="rela-block social mb-0"><span style="padding-right: 15px" ><i class="fab fa-twitter-square"></i></span>${twitter}</p>
+			<p class="rela-block social mb-0"><span style="padding-right: 15px" ><i class="fab fa-instagram"></i></span>${instagram}</p>
+			<p class="rela-block social mb-4"><span style="padding-right: 15px" ><i class="fab fa-linkedin"></i></span>${linkedin}</p>			
 			
 			
 			<div class="rela-block caps greyed">Education</div>
@@ -412,7 +423,6 @@ module.exports = (values) => {
             <h3>${title2}</h3>
             <p class="light mt-1 mb-2" style="font-size:17px;"><span class="mr-2"><i class="fas fa-link"></i></span>${link1}</p>
             <p class="justified" style="font-size:17px;">${experienceDescription2}</p>
-			
         </div>
     </div>
     </body>
