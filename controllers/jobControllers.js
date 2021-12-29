@@ -49,6 +49,7 @@ module.exports = {
         const  formData  = req.body
         console.log("This is body : " , req.body);
         const resume = req.file
+        console.log(resume);
         const {jobId} = req.params
         var errors = validationResult(req)
 
@@ -57,6 +58,7 @@ module.exports = {
             // Express Validator error.
 
             if (!errors.isEmpty()) {
+                console.log(errors.array());
                 return res.status(400).json({ errors: errors.array() })
             }
 
