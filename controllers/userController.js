@@ -44,5 +44,16 @@ module.exports = {
             console.log(error);
             res.status(500).json({Err : error})
         }
+    },
+    taskCompleted : async (req , res) => {
+        const { userId } = req.params
+        const {  } = req.body
+        try {
+
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({Err : error})
+        }
     }
 }

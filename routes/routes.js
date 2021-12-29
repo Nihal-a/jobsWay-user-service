@@ -4,8 +4,8 @@ const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser} = require('../cont
 const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById} = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
+const { createResume , getResume , taskCompleted} = require('../controllers/userController');
 const multer  = require('multer');
-const { createResume , getResume} = require('../controllers/userController');
 const upload = multer({ dest: 'uploads/' })
 
 const router  = express.Router();
@@ -27,6 +27,7 @@ router.get('/get-user/:id' , getUserDetails)
 router.post('/create-resume/:userId' , createResume)
 router.get('/get-resume/:userId' , getResume)
 router.get('/tasks/:userId' , getAllTaskOfUser)
+router.post('/task/completed/:userId ' , taskCompleted)
 
 //Jobs
 router.get('/getfeaturedjobs',getFeaturedJobs)

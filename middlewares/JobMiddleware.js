@@ -7,7 +7,7 @@ module.exports = {
         check('formData.email','Enter a valid email address').exists().isEmail(),
         check('formData.phone','Enter a valid Phone number').exists().isLength({min : 10}),
         check('formData.location','Enter a valid location').exists().isLength({min : 3}),
-        check('formData.experience','Enter a valid year of expirence').exists().isNumeric(),
+        check('formData.experience','Enter a valid year of expirence').exists(),
         check('formData.portfolio','Enter a valid portfolio URL').exists().isURL(),
         check('image','You must upload your Photo').exists().isBase64(),
     ],
