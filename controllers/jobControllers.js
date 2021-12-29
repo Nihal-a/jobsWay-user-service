@@ -46,7 +46,7 @@ module.exports = {
         }
     },
     applyJob : async (req , res) => {
-        const {formData , image } = req.body
+        const  formData  = req.body
         console.log(req.body);
         const resume = req.file
         const {jobId} = req.params
@@ -61,7 +61,7 @@ module.exports = {
                 return res.status(400).json({ errors: errors.array() })
             }
 
-            const imageUploadedResponse = await cloudinary.uploader.upload(image , {
+            const imageUploadedResponse = await cloudinary.uploader.upload(formData.image , {
                 upload_preset : 'Applied_Users_Image'
             })
     
@@ -83,6 +83,8 @@ module.exports = {
                         }
                     }
             })
+
+            delete formData.image
 
             await db.get().collection(collection.JOBS_COLLECTION).updateOne({_id : ObjectId(jobId)} , {
                     $addToSet : {

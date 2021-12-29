@@ -47,9 +47,10 @@ module.exports = {
     },
     taskCompleted : async (req , res) => {
         const { userId } = req.params
-        const {  } = req.body
+        const { answerUrl } = req.body
         try {
 
+            
             
         } catch (error) {
             console.log(error);
