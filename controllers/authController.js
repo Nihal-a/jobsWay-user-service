@@ -60,6 +60,8 @@ module.exports = {
         const { password , phone } = req.body
         var errors = validationResult(req)
 
+        console.log(req.body);
+
         try {
 
             //Express Validator error.
