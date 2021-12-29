@@ -47,7 +47,7 @@ module.exports = {
     },
     applyJob : async (req , res) => {
         const  formData  = req.body
-        console.log("This is body : " , req.body);
+        console.log("This is body : " , req.body.firstName);
         const resume = req.file
         console.log(resume);
         const {jobId} = req.params
