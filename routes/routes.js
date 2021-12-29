@@ -34,7 +34,7 @@ router.get('/getfeaturedjobs',getFeaturedJobs)
 router.get('/getjobs' , getAllJobs)
 router.get('/job/details/:jobId' , getJobById)
 router.get('/company-jobs/:id' , getJobsByCompany)
-router.post('/applyjob/:jobId' , validateApplyJob ,  upload.single('pdf') , applyJob)
+router.post('/applyjob/:jobId',  upload.single('pdf') , applyJob)
 router.get('/user-applied-jobs/:id' , getUserAppliedJobs)
  
 //company
