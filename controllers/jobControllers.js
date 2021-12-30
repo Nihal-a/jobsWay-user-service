@@ -70,7 +70,9 @@ module.exports = {
 
             const {Location} = await uploadFile(resume)
                 
-            await unLinkFile(resume.path)
+            await unLinkFile(resume.path , (err) => {
+                if(err) console.log(err);
+            }) 
 
             formData.resumeUrl = Location
 
