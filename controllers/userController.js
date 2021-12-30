@@ -46,11 +46,17 @@ module.exports = {
         }
     },
     taskCompleted : async (req , res) => {
-        const { userId } = req.params
-        const { answerUrl } = req.body
+        const { answerUrl , taskId } = req.body
         try {
 
-            
+            await db.get().collection(collection.USER_TASK_COLLECTION).updateOne({_id : ObjectId(taskId) } ,
+                {
+                    $set : {
+                        status : "COMPLETED",
+                        result : answerUrl
+                    }
+                }
+            )
             
         } catch (error) {
             console.log(error);
