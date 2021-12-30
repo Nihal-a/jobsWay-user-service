@@ -33,7 +33,7 @@ module.exports = {
         const { userId } = req.params
 
         try {
-            var allTask = await db.get().collection(collection.USER_TASK_COLLECTION).find({userId : ObjectId(userId)}).toArray()
+            var allTask = await db.get().collection(collection.USER_TASK_COLLECTION).find({ $and : [ {userId : ObjectId(userId) } , {status : "PENDING"}] }).toArray()
             
             res.status(200).json(allTask)
 
