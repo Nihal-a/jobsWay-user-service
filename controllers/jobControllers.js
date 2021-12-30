@@ -7,7 +7,7 @@ const { validationResult } = require('express-validator')
 const { cloudinary } = require('../utils/cloudinary')
 const { ObjectId } = require('bson')
 const { uploadFile } = require('../utils/s3')
-
+const fs = require('fs')
 
 
 module.exports = {
@@ -70,9 +70,7 @@ module.exports = {
 
             const {Location} = await uploadFile(resume)
                 
-            await unLinkFile(resume.path , (err) => {
-                if(err) console.log(err);
-            }) 
+            await fs.unlink(resume.path)
 
             formData.resumeUrl = Location
 
