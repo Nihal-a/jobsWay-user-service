@@ -26,7 +26,22 @@ module.exports = {
     },
     getAllJobs : async(req,res) => {
         try {
-            var allJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).toArray()
+            // var allJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).toArray()
+            var allJobs = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
+                { $match : { status : true } },
+                {
+                   $lookup : {
+                    from : collection.COMPANY_COLLECTION,
+                    localField : "companyId" ,
+                    foreignField : "_id",
+                    as : 'companyDetails'
+                   }
+                },
+                {
+                    $unwind: "$applications"
+                },
+                
+            ]).toArray()
 
             res.status(200).json(allJobs)
         } catch (error) {
