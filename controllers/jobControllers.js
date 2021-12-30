@@ -70,7 +70,7 @@ module.exports = {
 
             const {Location} = await uploadFile(resume)
                 
-            await fs.unlink(resume.path)
+            await fs.unlinkSync(resume.path)
 
             formData.resumeUrl = Location
 
