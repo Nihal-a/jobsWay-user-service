@@ -8,6 +8,8 @@ const { cloudinary } = require('../utils/cloudinary')
 const { ObjectId } = require('bson')
 const { uploadFile } = require('../utils/s3')
 const fs = require('fs')
+const util = require('util')
+const unLinkFile = util.promisify(fs.unlink)
 
 
 module.exports = {
@@ -70,7 +72,7 @@ module.exports = {
 
             const {Location} = await uploadFile(resume)
                 
-            await fs.unlinkSync(resume.path)
+            await unLinkFile(resume.path)
 
             formData.resumeUrl = Location
 
