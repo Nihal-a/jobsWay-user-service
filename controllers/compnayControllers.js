@@ -49,6 +49,10 @@ module.exports = {
                      as : 'companyDetails'
                     }
                 },
+                {
+                    $project : { "companyDetails.industry" : 0 , "companyDetails.email" : 0 , "companyDetails.bio" : 0 , "companyDetails.website" : 0 ,"companyDetails.facebook" : 0 ,"companyDetails.linkedIn" : 0 ,"companyDetails.twitter" : 0 ,"companyDetails.instagram" : 0 ,"companyDetails.password" : 0 ,"companyDetails.phone" : 0 ,  }
+                }
+
             ]).toArray()
 
             res.status(200).json(allTask)
