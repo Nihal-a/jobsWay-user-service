@@ -120,7 +120,18 @@ module.exports = {
                      foreignField : "_id",
                      as : 'jobDetails'
                     }
-                 },
+                },
+                {
+                    $lookup : {
+                     from : collection.COMPANY_COLLECTION,
+                     localField : "jobDetails.companyId" ,
+                     foreignField : "_id",
+                     as : 'companyDetails'
+                    }
+                },
+                {
+                    $project : { "appliedJobs" : 1 , "jobDetails.jobTitle" : 1 ,  "jobDetails.companyId" : 1 , "jobDetails.jobLocation" : 1 ,  "companyDetails.companyName" : 1 , "companyDetails._id" : 1 ,  "companyDetails.logoUrl" : 1 } 
+                },
             ]).toArray()
 
             res.status(200).json(allAppliedJobs)
