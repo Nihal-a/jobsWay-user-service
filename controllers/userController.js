@@ -62,5 +62,41 @@ module.exports = {
             console.log(error);
             res.status(500).json({Err : error})
         }
+    },
+    doSearch : async (req,res ) => {
+        const { keyword } = req.params
+
+        try {
+            let searchResult = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
+                {
+                    $match : {
+                        $and : [
+                            {
+                                $or : [
+                                    {
+                                        jobTitle : { $regex: `${keyword}`, $options: 'i' }
+                                    } ,
+                                    {
+                                        jobCategory : {  $regex: `${keyword}`, $options: 'i'  }
+                                    } ,
+                                    {
+                                        jobLocation : {  $regex: `${keyword}`, $options: 'i' }
+                                    }
+                                ]
+                            },
+                            {
+                                status : true
+                            }
+                        ]
+                    }
+                }
+            ]).toArray()
+
+            res.status(200).json(searchResult)
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({Err : error})
+        }
     }
 }
