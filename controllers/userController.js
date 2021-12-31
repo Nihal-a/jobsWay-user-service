@@ -98,5 +98,35 @@ module.exports = {
             console.log(error);
             res.status(500).json({Err : error})
         }
+    },
+    getUserAppliedJobStatus : async (req ,res) => {
+        const { userId } = req.params
+
+        try {
+            const allAppliedJobs = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    $match : { _id  : ObjectId(userId) },
+                },
+                {
+                    $project : { appliedJobs : 1 , _id : 0}
+                },
+                {
+                    $unwind : "$appliedJobs"
+                },
+                {
+                    $lookup : {
+                     from : collection.JOBS_COLLECTION,
+                     localField : "appliedJobs.id" ,
+                     foreignField : "_id",
+                     as : 'jobDetails'
+                    }
+                 },
+            ]).toArray()
+
+            res.status(200).json(allAppliedJobs)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({Err : error})
+        }
     }
 }
