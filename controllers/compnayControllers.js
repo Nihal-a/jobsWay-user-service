@@ -33,8 +33,24 @@ module.exports = {
         const { userId } = req.params
 
         try {
-            var allTask = await db.get().collection(collection.USER_TASK_COLLECTION).find({ $and : [ {userId : ObjectId(userId) } , {status : "PENDING"}] }).toArray()
+            // var allTask = await db.get().collection(collection.USER_TASK_COLLECTION).find({ $and : [ {userId : ObjectId(userId) } , {status : "PENDING"}] }).toArray()
             
+            const allTask = await db.get().collection(collection.USER_TASK_COLLECTION).aggregate([
+                {
+                    $match : { 
+                        $and : [ {userId : ObjectId(userId) } , {status : "PENDING"}]
+                    }
+                },
+                {
+                    $lookup : {
+                     from : collection.COMPANY_COLLECTION,
+                     localField : "companyId" ,
+                     foreignField : "_id",
+                     as : 'companyDetails'
+                    }
+                },
+            ]).toArray()
+
             res.status(200).json(allTask)
 
         } catch (error) {
