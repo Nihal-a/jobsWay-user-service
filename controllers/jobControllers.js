@@ -82,7 +82,7 @@ module.exports = {
             let userJobCount =await  db.get().collection(collection.USER_COLLECTION).findOne({_id : ObjectId(formData.userId)})
 
             
-            if(userJobCount.count >= 3) return res.status(400).json({msg : 'Update to Premium to Apply for unlimited job'})
+            if(userJobCount.count >= 3 && premium == false) return res.status(400).json({msg : 'Update to Premium to Apply for unlimited job'})
             
 
             const imageUploadedResponse = await cloudinary.uploader.upload(formData.image , {

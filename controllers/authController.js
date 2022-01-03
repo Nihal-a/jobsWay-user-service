@@ -105,7 +105,7 @@ module.exports = {
 
                         var name = `${firstName} ${lastName}`
 
-                        let result = await db.get().collection(USER_COLLECTION).insertOne({ phone, password: hashedPassword, name, ban: false ,email ,count : 0})
+                        let result = await db.get().collection(USER_COLLECTION).insertOne({ phone, password: hashedPassword, name, ban: false ,email ,count : 0 , premium : false})
 
                         let user = await db.get().collection(USER_COLLECTION).findOne({ _id: result.insertedId })
 
@@ -149,7 +149,7 @@ module.exports = {
 
                 if (lastName == undefined) name = firstName;
 
-                let result = await db.get().collection(USER_COLLECTION).insertOne({ email, password: hashedPassword, name, ban: false ,count : 0})
+                let result = await db.get().collection(USER_COLLECTION).insertOne({ email, password: hashedPassword, name, ban: false ,count : 0 , premium : false})
 
                 let user = await db.get().collection(USER_COLLECTION).findOne({ _id: result.insertedId })
 
