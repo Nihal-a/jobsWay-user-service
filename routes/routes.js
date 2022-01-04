@@ -6,6 +6,7 @@ const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = req
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
 const { createResume , getResume , taskCompleted , doSearch , getUserAppliedJobStatus} = require('../controllers/userController');
 const multer  = require('multer');
+const { verifyLogin } = require('../middlewares/tokenverify');
 const upload = multer({ dest: 'uploads/' })
 
 const router  = express.Router();
