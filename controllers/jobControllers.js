@@ -38,8 +38,8 @@ module.exports = {
                    }
                 },
                 {
-                    $unwind: "$applications"
-                },
+                    $project : { applications : 0 }
+                }
                 
             ]).toArray()
 
