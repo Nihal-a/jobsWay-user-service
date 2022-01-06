@@ -89,7 +89,18 @@ module.exports = {
                             }
                         ]
                     }
-                }
+                },
+                {
+                    $lookup : {
+                     from : collection.COMPANY_COLLECTION,
+                     localField : "companyId" ,
+                     foreignField : "_id",
+                     as : 'companyDetails'
+                    }
+                 },
+                 {
+                     $project : { applications : 0 }
+                 }
             ]).toArray()
 
             res.status(200).json(searchResult)
