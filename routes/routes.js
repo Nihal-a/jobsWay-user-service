@@ -28,7 +28,7 @@ router.get('/get-user/:id' , getUserDetails)
 router.post('/create-resume/:userId' , createResume)
 router.get('/get-resume/:userId' , getResume)
 router.get('/tasks/:userId' , getAllTaskOfUser)
-router.post('/task/completed/:userId ' , taskCompleted)
+router.post('/task/completed/:userId', taskCompleted)
 router.get('/applied/jobs/details/:userId' , getUserAppliedJobStatus)
 
 //Jobs
