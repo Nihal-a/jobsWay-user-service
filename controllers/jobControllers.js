@@ -213,11 +213,14 @@ module.exports = {
                     $unwind : "$jobCategory"
                 },
                 {
-                    $project : { _id : 0 , jobCategory : 1 }
+                    $project : { jobCategory : 1 }
                 },
                 {
-                    $group : { _id : "$jobCategory" }
-                }
+                    $group : { _id : "$jobCategory" ,  uniqueIds: {$addToSet: "$_id"}, count: {$sum: 1} }
+                },
+                {
+                    $project : { uniqueIds : 0 }
+                },
             ]).limit(6).toArray()
 
             res.status(200).json(jobCategories)
