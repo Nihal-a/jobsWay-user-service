@@ -1,7 +1,7 @@
 var express = require('express')
 const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp, editProfile ,getUserDetails} = require('../controllers/authController');
 const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser} = require('../controllers/compnayControllers');
-const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById} = require('../controllers/jobControllers');
+const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById ,getCategories } = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
 const { createResume , getResume , taskCompleted , doSearch , getUserAppliedJobStatus} = require('../controllers/userController');
@@ -38,7 +38,9 @@ router.get('/job/details/:jobId' , getJobById)
 router.get('/company-jobs/:id' , getJobsByCompany)
 router.post('/applyjob/:jobId',  upload.single('pdf') , applyJob)
 router.get('/user-applied-jobs/:id' , getUserAppliedJobs)
- 
+router.get('/jobs/catogories' , getCategories)
+// router.get('/jobs/catogory/:cat' , getJobsByCategory)
+
 //company
 router.get('/companies' , getAllCompanies)
 router.get('/getcompany/:id' , getCompanyDetails)

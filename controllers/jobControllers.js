@@ -204,5 +204,26 @@ module.exports = {
             console.log(error);
             res.status(500).json({Err : error})
         }
+    },
+    getCategories : async (req,res) => {
+
+        try {
+            const jobCategories = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
+                {
+                    $unwind : "$jobCategory"
+                },
+                {
+                    $project : { _id : 0 , jobCategory : 1 }
+                },
+                {
+                    $group : { _id : "$jobCategory" }
+                }
+            ]).limit(6).toArray()
+
+            res.status(200).json(jobCategories)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({Err : error})
+        }
     }
 }
