@@ -137,7 +137,7 @@ module.exports = {
     },
     getUserAppliedJobs : async (req,res) => {
         
-        const id = req.params.id
+        const { id } = req.params
 
         try {
 
@@ -149,34 +149,33 @@ module.exports = {
                     $unwind : "$appliedJobs"
                 },
                 {
-                    $project : {
-                        _id : 0,
-                        appliedJobs : 1
-                    }
-                },
-                {
                     $lookup : {
                         from : collection.JOBS_COLLECTION,
-                        localField : "appliedJobs",
+                        localField : "appliedJobs.id",
                         foreignField : "_id",
-                        as : 'appliedJobs'
+                        as : 'appliedJobsDetails'
                     }
                 },
                 {
                     $unwind : "$appliedJobs"
                 },
                 {
-                    $project : {
-                        "appliedJobs.jobTitle" : 1,
-                        "appliedJobs.companyId" : 1
+                    $lookup : {
+                        from : collection.COMPANY_COLLECTION,
+                        localField : "appliedJobsDetails.companyId",
+                        foreignField : "_id",
+                        as : 'companyDetails'
                     }
                 },
                 {
-                    $lookup : {
-                        from : collection.COMPANY_COLLECTION,
-                        localField : "appliedJobs.companyId",
-                        foreignField : "_id",
-                        as : 'appliedJobs'
+                    $project : {
+                        _id : 0,
+                        appliedJobs : 1 ,
+                        "appliedJobsDetails.jobTitle" : 1,
+                        "appliedJobsDetails.companyId" : 1,
+                        "companyDetails.companyName" : 1,
+                        "companyDetails.logoUrl" : 1 ,
+                        "companyDetails.location" : 1 ,
                     }
                 },
                 
