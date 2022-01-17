@@ -36,3 +36,5 @@ app.listen(PORT,(err) => {
     if(err) console.log("Server failed to start. Error : " + err);
     else console.log(`USER SERVICE - Server started at port : ${PORT}.`);
 })
+
+

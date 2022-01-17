@@ -15,7 +15,20 @@ const unLinkFile = util.promisify(fs.unlink)
 module.exports = {
     getFeaturedJobs :async (req, res) => {
         try {
-            var allFeaturedJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).limit(8).toArray()
+            // var allFeaturedJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).limit(8).toArray()
+            var allFeaturedJobs = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
+                {
+                    $match : {status : true}
+                },
+                {
+                    $lookup : {
+                     from : collection.COMPANY_COLLECTION,
+                     localField : "companyId" ,
+                     foreignField : "_id",
+                     as : 'companyDetails'
+                    }
+                },
+            ]).limit(8).toArray()
 
             res.status(200).json(allFeaturedJobs)
 
@@ -26,7 +39,7 @@ module.exports = {
     },
     getAllJobs : async(req,res) => {
         try {
-            // var allJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).toArray()
+
             var allJobs = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
                 { $match : { status : true } },
                 {
@@ -53,8 +66,7 @@ module.exports = {
         const id = req.params.id
 
         try {
-            var jobsOfCompany = await db.get().collection(collection.JOBS_COLLECTION).find({companyId : id}).toArray()
-            console.log("helk");
+            var jobsOfCompany = await db.get().collection(collection.JOBS_COLLECTION).find({ $and : [ {companyId : ObjectId(id)} , {status : true} ] }).toArray()
             console.log(jobsOfCompany);
             res.status(200).json(jobsOfCompany)
         } catch (error) {
@@ -64,9 +76,7 @@ module.exports = {
     },
     applyJob : async (req , res) => {
         const  formData  = req.body
-        console.log("This is body : " , req.body.firstName);
         const resume = req.file
-        console.log(resume);
         const {jobId} = req.params
         var errors = validationResult(req)
 
@@ -82,8 +92,8 @@ module.exports = {
             let userJobCount =await  db.get().collection(collection.USER_COLLECTION).findOne({_id : ObjectId(formData.userId)})
 
             
-            if(userJobCount.count >= 3 && premium == false) return res.status(400).json({msg : 'Update to Premium to Apply for unlimited job'})
-            
+            if(userJobCount.count >= 3 && userJobCount.premium == false) return res.status(400).json({msg : 'Update to Premium to Apply for unlimited job'})
+
 
             const imageUploadedResponse = await cloudinary.uploader.upload(formData.image , {
                 upload_preset : 'Applied_Users_Image'
@@ -190,14 +200,30 @@ module.exports = {
     getJobById : async (req , res) => {
 
         const {jobId} = req.params
-
         try {
 
-            const jobDetails = await db.get().collection(collection.JOBS_COLLECTION).findOne({_id : ObjectId(jobId)})
+            // const jobDetails = await db.get().collection(collection.JOBS_COLLECTION).findOne({_id : ObjectId(jobId)})
+
+            const jobDetails = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
+                {
+                    $match :  {_id : ObjectId(jobId)}
+                },
+                {
+                    $lookup : {
+                     from : collection.COMPANY_COLLECTION,
+                     localField : "companyId" ,
+                     foreignField : "_id",
+                     as : 'companyDetails'
+                    }
+                },
+                {
+                    $project : { "companyDetails.industry" : 0 , "companyDetails.email" : 0 , "companyDetails.bio" : 0 , "companyDetails.password" : 0 , "companyDetails.confirmPassword" : 0 , "companyDetails.status" : 0 , "companyDetails.ban" : 0 , "companyDetails.website" : 0 , "companyDetails.facebook" : 0 , "companyDetails.instagram" : 0 , "companyDetails.linkedIn" : 0 , "companyDetails.twitter" : 0 ,}
+                }
+            ]).toArray()
 
             if(!jobDetails) return res.status(400).json({msg : 'No job found with this ID'})
 
-            res.status(200).json(jobDetails)
+            res.status(200).json(jobDetails[0])
             
         } catch (error) {
             console.log(error);
