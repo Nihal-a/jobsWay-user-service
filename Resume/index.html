@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobsWay Resume</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .image { 
+        width: 210px;
+        height: 210px;
+        border-radius: 50%;
+        border: 1px solid grey;
+    }
+    .flex{
+        display: flex;
+    }
+    .flex-center { 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .p{
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+</style>
+<body >
+<div style="display: flex;">
+    <div class="" >
+        <h1 style="font-weight: 900; font-size: 40px;">{{formData.fullName}}</h1>
+        <h2 style="font-weight: 500; color: rgb(54, 54, 54); font-size: 15px; ">{{formData.jobTitle}}</h2>
+        <!-- <p style="max-width: 80%; font-size: 12px; margin-top: 5px;">Self Taught Full Stack Developer with hands-on project experience Designing, Developing, and implementing applications and solutions using a range of technologies and programming languages.Seeking to leverage broad development experience and hands-on technical expertise in a challenging role as a Full-stack Developer.</p> -->
+    </div>
+    <div class="">
+        <p>Email : <a href={{`mailto:${formData.email}`}}>{{formData.email}}</a></p>
+        <p>Phone : <a href="tel:+9148133817">{{formData.phone}}</a></p>
+    </div>
+    <hr style="margin-top: 1px;">
+    <div class="">
+        <h5><b> Experiences : </b></h5>
+        <hr style="margin-top: 2px;">
+        <h5>{{formData.institute1}}</h5>
+        <p >{{Packapeer pvt ltd - Duration : 1 year}}</p>
+        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+        <h5>MERN STACK DEVELOPER</h5>
+        <p >Packapeer pvt ltd - Duration : 1 year</p>
+        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+    </div>
+    <hr style="margin-top: 1px;">
+    <div class="">
+        <h5><b>Projects : </b></h5>
+        <hr style="margin-top: 2px;">
+        <h5>JobsWay JobPOrtal</h5>
+        <a href="" style="margin-top :2px;">https://www.muconilyhegixid.org.au</a>
+        <p style="margin-top :2px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+        
+        <h5>JobsWay JobPOrtal</h5>
+        <a href="" style="margin-top :2px;">https://www.muconilyhegixid.org.au</a>
+        <p style="margin-top :2px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+        
+    </div>
+    <div class="">
+        <h5><b> Educationes: </b></h5>
+        <hr style="margin-top: 1px;">
+        <h6>Bachlors in computer application</h6>
+        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+        
+        <hr style="margin-top: 1px;">
+        <h6>Bachlors in computer application</h6>
+        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+
+    </div>
+    <div class="">
+        <h5><b> Others : </b> </h5>
+        <hr style="margin-top: 2px;">
+       <h5>
+           Skills : <span style="color: teal;">HTML CSS JAVASCRIPT NODE FIGMA GIT</span>
+       </h5>
+       <h5>
+           Languages : <span style="color: teal;">English Malayalam Hindi</span>
+       </h5>
+       <h5>
+           Interests : <span style="color: teal;">One Two Three</span>
+       </h5>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

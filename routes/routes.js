@@ -1,6 +1,6 @@
 var express = require('express')
 const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp, editProfile ,getUserDetails} = require('../controllers/authController');
-const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser} = require('../controllers/compnayControllers');
+const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser} = require('../controllers/companyControllers');
 const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById ,getCategories } = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');

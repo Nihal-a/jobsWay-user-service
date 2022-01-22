@@ -2,39 +2,71 @@ require('dotenv').config()
 const db = require('../config/connection')
 const collection = require('../config/collection')
 const { ObjectId } = require('mongodb')
-const pdf = require('html-pdf')
-const pdfTemplate = require("../public/Resume");
+// const pdf = require('html-pdf')
+// const pdfTemplate = require("../public/Resume");
+const pdf = require("pdf-creator-node")
+const fs = require("fs")
+const { uploadFile } = require('../utils/s3')
+const util = require('util')
+const multer = require('multer')
+const unLinkFile = util.promisify(fs.unlink)
+var resumeHtml = fs.readFileSync('./Resume/index.html'  ,"utf8")
+const upload = multer({ dest: 'uploads/' })
 
 
 module.exports = {
     createResume : async (req , res) => {
-
         const {userId} = req.params
-        const userDetails = req.body
-
-        console.log(userDetails);
-
-        const options = {
-            height: "42cm",
-            width: "29.7cm",
-            timeout: "6000",
+        var options = {
+            format: "A3",
+            orientation: "portrait",
+            border: "10mm",
+            footer: {
+                height: "10px",
+                contents: '<div style="text-align: right; padding : 2px; font-size : 10px; ">Created With : <span style="color : #7BBBCE">JobsWay Resume</span?></div>'
+            }
         };
-        
 
-        try {
-            
-            pdf.create(pdfTemplate(userDetails) , options).toFile(`uploads/${userId}.pdf` , (err) => {
-                if (err) {
-                    console.log(err);
-                    res.status(401).json(err)
-                } else res.status(200).json('Done')
-            })
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({Err : error})
-        }
-    },
+        var document = {
+            html: resumeHtml,
+            data: {
+              formData: formData,
+            },
+            path: "./Resume/Output/output.pdf",
+            type: "",
+          };
+        pdf
+        .create(document, options)
+        .then(async(file) => {
+            try {
+            //     const data = { 
+            //         path : file.filename , 
+            //         filename : userId,
+            //         mimetype : 'application/pdf'
+            //     }
+
+            // const {Location} = await uploadFile(data)
+
+            // await unLinkFile(data.path)
+
+            // await db.get().collection(collection.USER_COLLECTION).updateOne({
+            //     $set : {
+            //         resumeUrl : Location ,
+            //     }
+            // })
+
+
+            } catch (error) {
+                console.log(error);
+                res.json(404).json({msg : 'Upload went wrong'})
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+            },
+
+
     getResume : async (req ,res) => {
         const {userId} = req.params
         try {

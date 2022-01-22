@@ -65,8 +65,11 @@ module.exports = {
     getJobsByCompany : async (req,res) => {
         const id = req.params.id
 
+        console.log(req.url);
+        console.log(id);
+
         try {
-            var jobsOfCompany = await db.get().collection(collection.JOBS_COLLECTION).find({ $and : [ {companyId : ObjectId(id)} , {status : true} ] }).toArray()
+            const jobsOfCompany = await db.get().collection(collection.JOBS_COLLECTION).find({ $and : [ {companyId : ObjectId(id)} , {status : true} ] }).toArray()
             console.log(jobsOfCompany);
             res.status(200).json(jobsOfCompany)
         } catch (error) {
@@ -191,6 +194,7 @@ module.exports = {
                 
             ]).toArray()
 
+            console.log(appliedJobs);
             res.status(200).json(appliedJobs)
         } catch (error) {
             console.log(error);

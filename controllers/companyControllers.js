@@ -10,9 +10,23 @@ module.exports = {
         const id = req.params.id
 
         try {
-            var companyDetails = await db.get().collection(collection.COMPANY_COLLECTION).findOne({_id : ObjectId(id)})
+            // var companyDetails = await db.get().collection(collection.COMPANY_COLLECTION).findOne({_id : ObjectId(id)})
+            var companyDetails = await db.get().collection(collection.COMPANY_COLLECTION).aggregate([
+                {
+                    $match : { _id : ObjectId(id) }
+                },
+                {
+                    $lookup : {
+                     from : collection.JOBS_COLLECTION,
+                     localField : "_id" ,
+                     foreignField : "companyId",
+                     as : 'jobs'
+                    }
+                },
 
-            res.status(200).json(companyDetails)
+            ]).toArray()
+
+            res.status(200).json(companyDetails[0])
         } catch (error) {
             console.log(error);
             res.status(500).json({Err : error})
