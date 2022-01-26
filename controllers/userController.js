@@ -17,6 +17,7 @@ const upload = multer({ dest: 'uploads/' })
 module.exports = {
     createResume : async (req , res) => {
         const {userId} = req.params
+        const  {formData} =req.body
         var options = {
             format: "A3",
             orientation: "portrait",
@@ -37,7 +38,7 @@ module.exports = {
           };
         pdf
         .create(document, options)
-        .then(async(file) => {
+        .then((file) => {
             try {
             //     const data = { 
             //         path : file.filename , 

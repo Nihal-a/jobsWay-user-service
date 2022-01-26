@@ -57,7 +57,7 @@ module.exports = {
     },
     //signin user
     signin: async (req, res) => {
-        const { password , phone } = req.body
+        const { password , phone , authmode } = req.body
         var errors = validationResult(req)
 
         try {
@@ -67,7 +67,7 @@ module.exports = {
                 return res.status(400).json({ errors: errors.array() })
             }
 
-            var user = await db.get().collection(USER_COLLECTION).findOne({ phone })
+            var user = await db.get().collection(USER_COLLECTION).findOne({ $and : [ {phone} , {authmode} ] })
 
 
             if (!user) return res.status(404).json({ errors: 'User Not found' })
@@ -103,7 +103,7 @@ module.exports = {
 
                         var name = `${firstName} ${lastName}`
 
-                        let result = await db.get().collection(USER_COLLECTION).insertOne({ phone, password: hashedPassword, name, ban: false ,email ,count : 0 , premium : false})
+                        let result = await db.get().collection(USER_COLLECTION).insertOne({ phone, password: hashedPassword, name, ban: false ,email ,count : 0 , premium : false ,authmode : 'phone'})
 
                         let user = await db.get().collection(USER_COLLECTION).findOne({ _id: result.insertedId })
 
@@ -122,13 +122,13 @@ module.exports = {
 
     //Google Sign in
     googlesign: async (req, res) => {
-        const { email, firstName, lastName, password } = req.body
+        const { email, firstName, lastName, password , authmode} = req.body
         try {
-            var userExist = await db.get().collection(USER_COLLECTION).findOne({ email })
+            var userExist = await db.get().collection(USER_COLLECTION).findOne({ $and : [ {email} , {authmode} ] })
 
             if (userExist) {
                 
-                var user = await db.get().collection(USER_COLLECTION).findOne({ email })
+                var user = await db.get().collection(USER_COLLECTION).findOne({ $and : [ {email} , {authmode} ] })
 
                 if (!user) return res.status(200).send('No account found.')
 
@@ -147,7 +147,7 @@ module.exports = {
 
                 if (lastName == undefined) name = firstName;
 
-                let result = await db.get().collection(USER_COLLECTION).insertOne({ email, password: hashedPassword, name, ban: false ,count : 0 , premium : false})
+                let result = await db.get().collection(USER_COLLECTION).insertOne({ email, password: hashedPassword, name, ban: false ,count : 0 , premium : false , authmode:'email'})
 
                 let user = await db.get().collection(USER_COLLECTION).findOne({ _id: result.insertedId })
 
@@ -232,28 +232,17 @@ module.exports = {
         }
     },
     editProfile : async (req,res) => {
-        const { userDetails , image } = req.body
+        console.log("ote here");
+        const userDetails = req.body
+        console.log(req.body.image);
         const resume = req.file
-        const id = req.params.id
+        const {id} = req.params
 
         try {
 
-            const user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+            const userExist = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
 
-            if(!user) return res.status(401).json({msg : "User not found"})
-
-            // if(userDetails.email) {
-            //     let emailExist = await db.get().collection(USER_COLLECTION).find({email : userDetails.email})
-            //     console.log("this is : " , emailExist);
-            //     if(emailExist) return res.status(401).json({msg : 'Account with this email already exists.'})
-            // }
-            
-            // if(userDetails.phone){
-            //     let phoneExist = await db.get().collection(USER_COLLECTION).find({phone : userDetails.phone})
-            //     console.log("this is : " , phoneExist);
-            //     if(phoneExist) return res.status(401).json({msg : 'Account with this phone number already exists.'})
-            // }
-            
+            if(!userExist) return res.status(401).json({msg : "User not found"})            
 
             if(req.file){
                 const {Location} = await uploadFile(resume)
@@ -265,8 +254,10 @@ module.exports = {
                 await unLinkFile(resume.path)
             }
 
-            if(image) {
-                const imageUploadedResponse = await cloudinary.uploader.upload(image , {
+            console.log("its hejknfdlksajfk");
+
+            if(!userDetails.image == null) {
+                const imageUploadedResponse = await cloudinary.uploader.upload(userDetails.image , {
                     upload_preset : 'Applied_Users_Image'
                 })
                 await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
@@ -279,7 +270,7 @@ module.exports = {
             await db.get().collection(USER_COLLECTION).updateOne({_id : ObjectId(id) } , {
                 $set : {
                     name : userDetails?.name,
-                    designation : userDetails?.designation , 
+                    designatioin : userDetails?.designatioin , 
                     instagram : userDetails?.instagram ,
                     twitter : userDetails?.twitter ,
                     facebook : userDetails?.facebook,
@@ -288,16 +279,20 @@ module.exports = {
                     location : userDetails?.location ,
                     email : userDetails?.email , 
                     portfolio : userDetails?.portfolio ,
-                    experience : userDetails?.experience , 
-                    phone : userDetails?.phone
+                    phone : userDetails?.phone,
+                    github : userDetails?.github
                 }
             })
 
-            let updatedUser = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
+            console.log("everuthing ");
 
-            const token = jwt.sign({ email: updatedUser.email, id: updatedUser._id.str }, 'secret', { expiresIn: "1h" })
+            let user = await db.get().collection(USER_COLLECTION).findOne({_id : ObjectId(id)})
 
-            res.status(200).json({updatedUser , token})
+            const token = jwt.sign({ email: user.email, id: user._id.str }, 'secret', { expiresIn: "1h" })
+
+            console.log("userfff");
+
+            res.status(200).json({user , token})
             
         } catch (error) {
             console.log(error);

@@ -20,7 +20,7 @@ router.post('/verifyotp',verifyOtp)
 router.post('/googlesign',googlesign)
 router.post('/forgot-password',validatePhone,forgotPassword)
 router.post('/forgot-otp-verify',validateNewPassword,ForgotverifyOtp)
-router.post('/edit-profile/:id', upload.single('pdf') ,editProfile)
+router.patch('/edit-profile/:id', upload.single('pdf') ,editProfile)
 router.get('/get-user/:id' , getUserDetails)
 
 

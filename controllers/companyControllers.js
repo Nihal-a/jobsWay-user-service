@@ -46,6 +46,7 @@ module.exports = {
 
         const { userId } = req.params
 
+        console.log(userId);
         try {
             // var allTask = await db.get().collection(collection.USER_TASK_COLLECTION).find({ $and : [ {userId : ObjectId(userId) } , {status : "PENDING"}] }).toArray()
             
@@ -68,6 +69,8 @@ module.exports = {
                 }
 
             ]).toArray()
+
+            console.log(allTask);
 
             res.status(200).json(allTask)
 
