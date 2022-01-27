@@ -2,8 +2,6 @@ require('dotenv').config()
 const db = require('../config/connection')
 const collection = require('../config/collection')
 const { ObjectId } = require('mongodb')
-// const pdf = require('html-pdf')
-// const pdfTemplate = require("../public/Resume");
 const pdf = require("pdf-creator-node")
 const fs = require("fs")
 const { uploadFile } = require('../utils/s3')
@@ -17,7 +15,8 @@ const upload = multer({ dest: 'uploads/' })
 module.exports = {
     createResume : async (req , res) => {
         const {userId} = req.params
-        const  {formData} =req.body
+        const  formData =req.body
+        console.log(formData);
         var options = {
             format: "A3",
             orientation: "portrait",
@@ -33,29 +32,34 @@ module.exports = {
             data: {
               formData: formData,
             },
-            path: "./Resume/Output/output.pdf",
+            path: `./Resume/Output/${userId}.pdf`,
             type: "",
           };
         pdf
         .create(document, options)
-        .then((file) => {
+        .then(async(file) => {
             try {
-            //     const data = { 
-            //         path : file.filename , 
-            //         filename : userId,
-            //         mimetype : 'application/pdf'
-            //     }
+                const data = { 
+                    path : file.filename , 
+                    filename : userId,
+                    mimetype : 'application/pdf'
+                }
 
-            // const {Location} = await uploadFile(data)
+            const {Location} = await uploadFile(data)
 
-            // await unLinkFile(data.path)
+            await unLinkFile(data.path)
 
-            // await db.get().collection(collection.USER_COLLECTION).updateOne({
-            //     $set : {
-            //         resumeUrl : Location ,
-            //     }
-            // })
+            console.log("---" , Location);
+            console.log("###" ,data.path);
 
+            await db.get().collection(collection.USER_COLLECTION).updateOne({ _id : ObjectId(userId) }, {
+                $set : {
+                    resumeUrl : Location ,
+                }
+            })
+
+            console.log("done");
+            res.status(200).json({msg: 'Upload done successfully' , Link : Location})
 
             } catch (error) {
                 console.log(error);

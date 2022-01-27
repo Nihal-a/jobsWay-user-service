@@ -43,56 +43,80 @@
         <!-- <p style="max-width: 80%; font-size: 12px; margin-top: 5px;">Self Taught Full Stack Developer with hands-on project experience Designing, Developing, and implementing applications and solutions using a range of technologies and programming languages.Seeking to leverage broad development experience and hands-on technical expertise in a challenging role as a Full-stack Developer.</p> -->
     </div>
     <div class="">
-        <p>Email : <a href={{`mailto:${formData.email}`}}>{{formData.email}}</a></p>
+        <p>Email : <a href="">{{formData.email}}</a></p>
         <p>Phone : <a href="tel:+9148133817">{{formData.phone}}</a></p>
     </div>
     <hr style="margin-top: 1px;">
     <div class="">
         <h5><b> Experiences : </b></h5>
         <hr style="margin-top: 2px;">
-        <h5>{{formData.institute1}}</h5>
-        <p >{{Packapeer pvt ltd - Duration : 1 year}}</p>
-        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+        <h5>{{formData.position1}}</h5>
+        <p><b>{{formData.institute1}}</b> - Duration : {{formData.duration1}} year</p>
+        <p>{{formData.experienceDescription1}}</p>
         <h5>MERN STACK DEVELOPER</h5>
-        <p >Packapeer pvt ltd - Duration : 1 year</p>
-        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+        <p><b>{{formData.institute2}}</b> - Duration : {{formData.duration2}} year</p>
+        <p>{{formData.experienceDescription2}}</p>
     </div>
     <hr style="margin-top: 1px;">
     <div class="">
         <h5><b>Projects : </b></h5>
         <hr style="margin-top: 2px;">
-        <h5>JobsWay JobPOrtal</h5>
-        <a href="" style="margin-top :2px;">https://www.muconilyhegixid.org.au</a>
-        <p style="margin-top :2px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
-        
-        <h5>JobsWay JobPOrtal</h5>
-        <a href="" style="margin-top :2px;">https://www.muconilyhegixid.org.au</a>
-        <p style="margin-top :2px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
-        
-    </div>
-    <div class="">
-        <h5><b> Educationes: </b></h5>
-        <hr style="margin-top: 1px;">
-        <h6>Bachlors in computer application</h6>
-        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
-        
-        <hr style="margin-top: 1px;">
-        <h6>Bachlors in computer application</h6>
-        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, fugit iste illo fugiat rerum tempore optio labore? Dolor, inventore minus! Odio, vitae! Voluptatum, ipsam quas.</p>
+
+
+        <h5>{{formData.title1}}</h5>
+        <a href={{formData.link1}} style="margin-top :2px;">{{formData.link1}}</a>
+        <p style="margin-top :2px;">{{formData.projectDescription1}}</p>
+
+
+        <h5>{{formData.title2}}</h5>
+        <a href={{formData.link2}} style="margin-top :2px;">{{formData.link2}}</a>
+        <p style="margin-top :2px;">{{formData.projectDescription2}}</p>
+
+
+        <h5>{{formData.title3}}</h5>
+        <a href={{formData.link3}} style="margin-top :2px;">{{formData.link3}}</a>
+        <p style="margin-top :2px;">{{formData.projectDescription3}}</p>
 
     </div>
     <div class="">
-        <h5><b> Others : </b> </h5>
+        <h5><b> Education: </b></h5>
+        <hr style="margin-top: 1px;">
+        
+        <h4><b>{{formData.qualification1}}</b></h4>
+        <h6>{{formData.collage}} <em class="ml-3">{{formData.fromyear1}} - {{formData.toyear1}}</em></h6>
+        <p>{{formData.description1}}</p>
+        
+        <h4><b>{{formData.qualification2}}</b></h4>
+        <h6>{{formData.collage}} <em class="ml-3">{{formData.fromyear2}} - {{formData.toyear2}}</em></h6>
+        <p>{{formData.description2}}</p>
+        
+        <h4><b>{{formData.qualification3}}</b></h4>
+        <h6>{{formData.collage}} <em class="ml-3">{{formData.fromyear3}} - {{formData.toyear3}}</em></h6>
+        <p>{{formData.description3}}</p>
+        
+    </div>
+    <div class="">
+        <h5><b>Others : </b></h5>
         <hr style="margin-top: 2px;">
        <h5>
-           Skills : <span style="color: teal;">HTML CSS JAVASCRIPT NODE FIGMA GIT</span>
+           <b>Skills</b> : <span style="color: teal;">{{formData.skill1}} {{formData.skill2}} {{formData.skill3}} {{formData.skill4}} {{formData.skill5}} {{formData.skill5}}</span>
        </h5>
        <h5>
-           Languages : <span style="color: teal;">English Malayalam Hindi</span>
+           <b>Languages</b> : <span style="color: teal;">{{formData.language1}} {{formData.language2}} {{formData.language3}}</span>
        </h5>
        <h5>
-           Interests : <span style="color: teal;">One Two Three</span>
+           <b>Interests</b> : <span style="color: teal;">{{formData.interest1}} {{formData.interest2}} {{formData.interest3}}</span>
        </h5>
+    </div>
+    <div class="">
+        <h5><b>Social Media Links : </b></h5>
+        <hr style="margin-top: 2px;">
+       <a href={{formData.portfolio}}>Portfolio</a>
+       <a href={{formData.github}}>github</a>
+       <a href={{formData.linkedIn}}>linkedIn</span></a>
+       <a href={{formData.twitter}}>twitter</a>
+       <a href={{formData.facebook}}>facebook</a>
+       <a href={{formData.instagram}}>instagram</a>
     </div>
 </div>
 
