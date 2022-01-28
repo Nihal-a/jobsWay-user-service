@@ -83,7 +83,9 @@ module.exports = {
         }
     },
     taskCompleted : async (req , res) => {
+
         const { answerUrl , taskId } = req.body
+        console.log(req.body);
         try {
 
             await db.get().collection(collection.USER_TASK_COLLECTION).updateOne({_id : ObjectId(taskId) } ,

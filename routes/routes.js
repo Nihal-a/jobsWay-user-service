@@ -1,6 +1,6 @@
 var express = require('express')
 const {getDashboard,signup,signin,verifyOtp,forgotPassword, googlesign, ForgotverifyOtp, editProfile ,getUserDetails} = require('../controllers/authController');
-const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser} = require('../controllers/companyControllers');
+const { getCompanyDetails, getAllCompanies ,getAllTaskOfUser,startTask} = require('../controllers/companyControllers');
 const { getFeaturedJobs, getAllJobs, getJobsByCompany, applyJob, getUserAppliedJobs , getJobById ,getCategories } = require('../controllers/jobControllers');
 const {validateSignUp, validateSignIn, validatePhone, validateNewPassword} = require('../middlewares/AuthMiddleware');
 const { validateApplyJob } = require('../middlewares/JobMiddleware');
@@ -28,6 +28,7 @@ router.get('/get-user/:id' , getUserDetails)
 router.post('/create-resume/:userId' , createResume)
 router.get('/get-resume/:userId' , getResume)
 router.get('/tasks/:userId' , getAllTaskOfUser)
+router.patch('/start-task/:taskId' , startTask)
 router.post('/task/completed/:userId', taskCompleted)
 router.get('/applied/jobs/details/:userId' , getUserAppliedJobStatus)
 
