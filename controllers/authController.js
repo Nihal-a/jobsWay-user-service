@@ -53,6 +53,9 @@ module.exports = {
                         channel: "sms"
                     }).then(({status}) => {
                         res.status(200).json({ status , userDetails : req.body})
+                    }).catch((error) => {
+                        console.log(error);
+                        res.status(500).json(error)
                     })
             } catch (error) {
                 console.log(error);
