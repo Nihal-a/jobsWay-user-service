@@ -24,6 +24,7 @@ module.exports = {
         const { phone} = req.body
         var errors = validationResult(req)
 
+        console.log("hello");
         //Signup user
         try {
             //Express Validator error.
@@ -31,11 +32,17 @@ module.exports = {
                 return res.status(400).json({ errors: errors.array() })
             }
 
+        console.log("hiii");
+
+
             var userExist = await db.get().collection(USER_COLLECTION).findOne({phone})
 
 
             if (userExist) return res.status(401).json({ errors: 'User already exists' })
             
+        console.log("sajdkfhjksdfk");
+
+
             //Send Otp 
             try {
     
