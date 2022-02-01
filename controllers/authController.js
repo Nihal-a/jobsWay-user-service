@@ -121,7 +121,7 @@ module.exports = {
 
                         const token = jwt.sign({ phone: result.phone, id: result.insertedId.str }, 'secret', { expiresIn: "1h" })
 
-                        res.status(200).json({ user, token })
+                        res.status(200).json({token , user})
                     } else {
                         res.status(400).json({ Err: "Invalid OTP", userDetails })
                     }
