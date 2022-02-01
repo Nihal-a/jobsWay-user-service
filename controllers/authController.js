@@ -135,6 +135,7 @@ module.exports = {
     //Google Sign in
     googlesign: async (req, res) => {
         const { email, firstName, lastName, password , authmode} = req.body
+        console.log("Data , " , req.body);
         try {
             var userExist = await db.get().collection(USER_COLLECTION).findOne({ $and : [ {email} , {authmode} ] })
 
