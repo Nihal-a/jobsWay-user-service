@@ -20,7 +20,7 @@ module.exports = {
         res.send('Hey , Welcome to JobsWay User Service')
     },
     signup: async (req, res) => {
-        console.log(req.body);
+        console.log("frespioms" , req.body);
         const { phone} = req.body
         var errors = validationResult(req)
 

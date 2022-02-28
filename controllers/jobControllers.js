@@ -14,6 +14,7 @@ const unLinkFile = util.promisify(fs.unlink)
 
 module.exports = {
     getFeaturedJobs :async (req, res) => {
+        console.log("hrerrerere");
         try {
             // var allFeaturedJobs = await db.get().collection(collection.JOBS_COLLECTION).find({status : true}).limit(8).toArray()
             var allFeaturedJobs = await db.get().collection(collection.JOBS_COLLECTION).aggregate([
@@ -80,6 +81,7 @@ module.exports = {
     applyJob : async (req , res) => {
         const  formData  = req.body
         const resume = req.file
+        console.log("this isis sisisi s : " , resume);
         const {jobId} = req.params
         var errors = validationResult(req)
 
